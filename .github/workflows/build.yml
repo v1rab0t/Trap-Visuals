@@ -15,9 +15,13 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Build with Gradle 8.8 (Fixed Wrapper)
+      - name: Setup Gradle 8.8
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: '8.8'
+
+      - name: Build with Gradle 8.8
         run: |
-          # Находим папку, где лежит build.gradle
           BUILD_FILE=$(find . -name "build.gradle" -type f | head -n 1)
           if [ -z "$BUILD_FILE" ]; then
             echo "Error: build.gradle not found!"
@@ -25,27 +29,9 @@ jobs:
           fi
           
           PROJECT_DIR=$(dirname "$BUILD_FILE")
-          echo "Project directory: $PROJECT_DIR"
           cd "$PROJECT_DIR"
-
-          # Создаем корректный конфиг для Gradle 8.8
-          mkdir -p gradle/wrapper
-          cat << 'EOF' > gradle/wrapper/gradle-wrapper.properties
-          distributionBase=GRADLE_USER_HOME
-          distributionPath=wrapper/dists
-          distributionUrl=https\://services.gradle.org/distributions/gradle-8.8-bin.zip
-          networkTimeout=10000
-          validateDistributionUrl=true
-          zipStoreBase=GRADLE_USER_HOME
-          zipStorePath=wrapper/dists
-          EOF
-
-          # Генерируем обертку gradlew заново
-          gradle wrapper --gradle-version 8.8
-
-          # Даем права и запускаем ИМЕННО локальный gradlew (а не глобальный gradle!)
-          chmod +x gradlew
-          ./gradlew build --no-daemon
+          
+          gradle build --no-daemon
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
