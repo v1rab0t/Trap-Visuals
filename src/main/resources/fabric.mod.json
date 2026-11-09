@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "trap_visuals",
+  "version": "${version}",
+  "name": "Trap Visuals",
+  "description": "Visual enhancement mod for Minecraft (TV)",
+  "authors": [
+    "Trap Visuals Team"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net"
+  },
+  "license": "MIT",
+  "icon": "assets/trap_visuals/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.trapvisuals.TrapVisualsClient"
+    ]
+  },
+  "mixins": [
+    "trap_visuals.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": ">=1.21",
+    "fabric-api": "*"
+  }
+}
