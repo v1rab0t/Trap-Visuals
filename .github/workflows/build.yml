@@ -15,19 +15,14 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Build with Gradle (Auto-locate)
+      - name: Initialize Gradle Wrapper & Build
         run: |
-          # Ищем gradlew в корне или в любой папке уровнем ниже
-          GRADLEW_PATH=$(find . -name "gradlew" -type f | head -n 1)
-          if [ -z "$GRADLEW_PATH" ]; then
-            echo "Error: gradlew not found!"
-            exit 1
+          # Если gradlew случайно не загрузился, создаем его автоматически
+          if [ ! -f "./gradlew" ]; then
+            echo "Generating Gradle wrapper..."
+            gradle wrapper --gradle-version 8.8
           fi
           
-          PROJECT_DIR=$(dirname "$GRADLEW_PATH")
-          echo "Found project directory at: $PROJECT_DIR"
-          
-          cd "$PROJECT_DIR"
           chmod +x gradlew
           ./gradlew build
 
