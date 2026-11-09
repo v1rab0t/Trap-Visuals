@@ -50,7 +50,7 @@ public class TrapVisualsManager {
         // FreeCam logic
         if (freeCam) {
             if (!freeCamActiveLastTick) {
-                Vec3d pos = client.player.getPos();
+                Vec3d pos = new Vec3d(client.player.getX(), client.player.getY(), client.player.getZ());
                 freeCamX = pos.x;
                 freeCamY = pos.y + client.player.getEyeHeight(client.player.getPose());
                 freeCamZ = pos.z;
