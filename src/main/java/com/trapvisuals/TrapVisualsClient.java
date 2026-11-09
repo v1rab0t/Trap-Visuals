@@ -18,7 +18,7 @@ public class TrapVisualsClient implements ClientModInitializer {
                 "key.trap_visuals.menu",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_RIGHT_SHIFT,
-                "category.trap_visuals"
+                KeyBinding.Category.create("category.trap_visuals")
         ));
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
