@@ -1,22 +1,37 @@
 name: Build Mod
-on: [push]
+
+on: [push, workflow_dispatch]
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
+
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '21'
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-      - name: Build with Gradle
-        run: ./gradlew build
+
+      - name: Find and Build with Gradle
+        run: |
+          # Ищем, где лежит gradlew (в корне или внутри папки)
+          if [ -f "./gradlew" ]; then
+            chmod +x gradlew
+            ./gradlew build
+          elif [ -f "./trap_visuals_src/gradlew" ]; then
+            cd trap_visuals_src
+            chmod +x gradlew
+            ./gradlew build
+          else
+            echo "Gradle wrapper not found!"
+            exit 1
+          fi
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: trap-visuals-jar
-          path: build/libs/*.jar
+          path: '**/build/libs/*.jar'
