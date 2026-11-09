@@ -16,7 +16,7 @@ public class TrapVisualsClient implements ClientModInitializer {
     public void onInitializeClient() {
         menuKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.trap_visuals.menu",
-                InputUtil.Type.KEY_SYM,
+                InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_RIGHT_SHIFT,
                 "category.trap_visuals"
         ));
