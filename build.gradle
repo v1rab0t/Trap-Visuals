@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.8-SNAPSHOT'
+    id 'net.fabricmc.fabric-loom-remap' version '1.8-SNAPSHOT'
     id 'maven-publish'
 }
 
@@ -11,7 +11,7 @@ base {
 }
 
 repositories {
-    // Ваши репозитории (если есть)
+    // Здесь могут быть ваши репозитории
 }
 
 dependencies {
