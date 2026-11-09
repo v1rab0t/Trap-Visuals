@@ -15,9 +15,9 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Build with Gradle 8.8
+      - name: Build with Gradle 8.8 (Fixed Wrapper)
         run: |
-          # Автоматически находим, где лежит build.gradle
+          # Находим папку, где лежит build.gradle
           BUILD_FILE=$(find . -name "build.gradle" -type f | head -n 1)
           if [ -z "$BUILD_FILE" ]; then
             echo "Error: build.gradle not found!"
@@ -28,7 +28,7 @@ jobs:
           echo "Project directory: $PROJECT_DIR"
           cd "$PROJECT_DIR"
 
-          # Принудительно настраиваем Gradle 8.8 (совместимый с Fabric Loom)
+          # Создаем корректный конфиг для Gradle 8.8
           mkdir -p gradle/wrapper
           cat << 'EOF' > gradle/wrapper/gradle-wrapper.properties
           distributionBase=GRADLE_USER_HOME
@@ -40,13 +40,12 @@ jobs:
           zipStorePath=wrapper/dists
           EOF
 
-          # Генерируем gradlew если его нет
-          if [ ! -f "./gradlew" ]; then
-            gradle wrapper --gradle-version 8.8
-          fi
+          # Генерируем обертку gradlew заново
+          gradle wrapper --gradle-version 8.8
 
+          # Даем права и запускаем ИМЕННО локальный gradlew (а не глобальный gradle!)
           chmod +x gradlew
-          ./gradlew build
+          ./gradlew build --no-daemon
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
