@@ -15,20 +15,21 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Find and Build with Gradle
+      - name: Build with Gradle (Auto-locate)
         run: |
-          # Ищем, где лежит gradlew (в корне или внутри папки)
-          if [ -f "./gradlew" ]; then
-            chmod +x gradlew
-            ./gradlew build
-          elif [ -f "./trap_visuals_src/gradlew" ]; then
-            cd trap_visuals_src
-            chmod +x gradlew
-            ./gradlew build
-          else
-            echo "Gradle wrapper not found!"
+          # Ищем gradlew в корне или в любой папке уровнем ниже
+          GRADLEW_PATH=$(find . -name "gradlew" -type f | head -n 1)
+          if [ -z "$GRADLEW_PATH" ]; then
+            echo "Error: gradlew not found!"
             exit 1
           fi
+          
+          PROJECT_DIR=$(dirname "$GRADLEW_PATH")
+          echo "Found project directory at: $PROJECT_DIR"
+          
+          cd "$PROJECT_DIR"
+          chmod +x gradlew
+          ./gradlew build
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
