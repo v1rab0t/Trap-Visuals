@@ -1,5 +1,5 @@
 plugins {
-    id 'net.fabricmc.fabric-loom-remap' version '1.8-SNAPSHOT'
+    id 'fabric-loom' version '1.8-SNAPSHOT'
     id 'maven-publish'
 }
 
@@ -11,7 +11,7 @@ base {
 }
 
 repositories {
-    // Здесь могут быть ваши репозитории
+    // Дополнительные репозитории (при необходимости)
 }
 
 dependencies {
@@ -36,10 +36,4 @@ java {
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
     withSourcesJar()
-}
-
-jar {
-    from("LICENSE") {
-        include "fabric.mod.json"
-    }
 }
