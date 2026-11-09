@@ -15,12 +15,12 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Setup Gradle 8.10.2
+      - name: Setup Gradle 9.5.0
         uses: gradle/actions/setup-gradle@v3
         with:
-          gradle-version: '8.10.2'
+          gradle-version: '9.5.0'
 
-      - name: Build with Gradle 8.10.2
+      - name: Build with Gradle 9.5.0
         run: |
           BUILD_FILE=$(find . -name "build.gradle" -type f | head -n 1)
           if [ -z "$BUILD_FILE" ]; then
